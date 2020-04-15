@@ -1,10 +1,10 @@
 FROM maven:3-jdk-11-openj9
 
 # Install wget
-USER root
-#RUN \
-#  apt-get update && \
-#  apt-get install -y wget
+#USER root
+RUN \
+  apt-get update && \
+  apt-get install -y wget
 
 # Copy the application into the image
 COPY . /app
@@ -29,6 +29,6 @@ RUN \
   rm -rf /home/vertx/.m2
   
 # Define the runtime behavior
-#HEALTHCHECK --interval=30s --timeout=3s CMD wget http://localhost:8080 -t 1 -T 3 --spider
+HEALTHCHECK --interval=30s --timeout=3s CMD wget http://localhost:8080 -t 1 -T 3 --spider
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app/target/java-simple-1.0-SNAPSHOT-fat.jar"]
