@@ -1,7 +1,7 @@
 FROM maven:3-jdk-11-openj9
 
 # Install wget
-#USER root
+USER root
 RUN \
   apt-get update && \
   apt-get install -y wget
@@ -17,7 +17,7 @@ RUN \
   mkdir /home/vertx && \
   chown -R vertx:vertx /home/vertx && \
   chown -R vertx:vertx /app
-USER vertx
+USER vertx:vertx
 
 RUN \
 # Debug information
