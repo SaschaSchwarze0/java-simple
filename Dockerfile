@@ -1,32 +1,30 @@
+# syntax=docker/dockerfile:experimental
 FROM maven:3-jdk-11-openj9
 
-# Install wget
 USER root
 RUN \
+# Install wget
   apt-get update && \
-  apt-get install -y wget
-
-# Copy the application into the image
-COPY . /app
-WORKDIR /app
-
+  apt-get install -y wget && \
 # Create a vertx user
-RUN \
   groupadd -g 1100 vertx && \
   useradd -u 1100 -g vertx vertx && \
   mkdir /home/vertx && \
-  chown -R vertx:vertx /home/vertx && \
-  chown -R vertx:vertx /app
+  chown -R vertx:vertx /home/vertx
+
+# Copy the application into the image
+COPY --chown=vertx:vertx . /app
+WORKDIR /app
+
 USER vertx:vertx
 
 RUN \
+  --mount=type=tmpfs,target=/home/vertx/.m2,readwrite \
 # Debug information
   java -version && \
   mvn -version && \
 # Build the application
-  mvn package && \
-# Remove the maven cache
-  rm -rf /home/vertx/.m2
+  mvn package
   
 # Define the runtime behavior
 HEALTHCHECK --interval=30s --timeout=3s CMD wget http://localhost:8080 -t 1 -T 3 --spider
