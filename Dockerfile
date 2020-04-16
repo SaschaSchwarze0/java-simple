@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:experimental
 FROM maven:3-jdk-11-openj9
 
 USER root
@@ -19,12 +18,13 @@ WORKDIR /app
 USER vertx:vertx
 
 RUN \
-  --mount=type=tmpfs,target=/home/vertx/.m2,readwrite \
 # Debug information
   java -version && \
   mvn -version && \
 # Build the application
-  mvn package
+  mvn package && \
+# Remove the maven cache
+  rm -rf /home/vertx/.m2
   
 # Define the runtime behavior
 HEALTHCHECK --interval=30s --timeout=3s CMD wget http://localhost:8080 -t 1 -T 3 --spider
