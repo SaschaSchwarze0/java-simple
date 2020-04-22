@@ -26,7 +26,8 @@ RUN \
 # Remove the maven cache
   rm -rf /home/vertx/.m2
   
+  
 # Define the runtime behavior
-HEALTHCHECK --interval=30s --timeout=3s CMD wget http://localhost:8080 -t 1 -T 3 --spider
-EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=3s CMD wget http://localhost:80 -t 1 -T 3 --spider
+EXPOSE 80
 ENTRYPOINT ["java", "-jar", "/app/target/java-simple-1.0-SNAPSHOT-fat.jar"]

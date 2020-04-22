@@ -8,6 +8,6 @@ public class MainVerticle extends AbstractVerticle {
   public void start() {
     vertx.createHttpServer()
         .requestHandler(req -> req.response().end("Hello World!"))
-        .listen(8080);
+        .listen(80);
   }
 }

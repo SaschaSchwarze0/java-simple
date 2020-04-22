@@ -1,12 +1,18 @@
 package com.ibm.de.schwarzs.java.vertx;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.stream.Collectors;
+
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import io.vertx.core.Vertx;
-import io.vertx.ext.unit.Async;
 import io.vertx.ext.unit.TestContext;
 import io.vertx.ext.unit.junit.VertxUnitRunner;
 
@@ -26,16 +32,9 @@ public class MainVerticleTest {
     vertx.close(tc.asyncAssertSuccess());
   }
 
-  @SuppressWarnings("deprecation")
   @Test
-  public void testThatTheServerIsStarted(TestContext tc) {
-    Async async = tc.async();
-    vertx.createHttpClient().getNow(8080, "localhost", "/", response -> {
-      tc.assertEquals(response.statusCode(), 200);
-      response.bodyHandler(body -> {
-        tc.assertTrue(body.length() > 0);
-        async.complete();
-      });
-    });
+  public void testThatTheServerIsStarted() throws IOException {
+    String result = new BufferedReader(new InputStreamReader(new URL("http://localhost:80/").openStream())).lines().collect(Collectors.joining("\n"));
+    Assert.assertEquals("Hello World!", result);
   }
 }
