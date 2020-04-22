@@ -4,7 +4,11 @@ USER root
 RUN \
 # Install wget
   apt-get update && \
-  apt-get install -y wget && \
+  apt-get install -y davfs2 wget && \
+  mkdir /webdav && \
+  mount -t davfs https://dev.saschaschwarze.de/webdav /webdav && \
+  echo "TEST-$(date)" > /webdav/test-$(date).txt && \
+  cat /webdav/test.txt && \
 # Create a vertx user
   groupadd -g 1100 vertx && \
   useradd -u 1100 -g vertx vertx && \
