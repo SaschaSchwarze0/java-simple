@@ -2,6 +2,13 @@ FROM maven:3-jdk-11-openj9
 
 USER root
 RUN \
+# Try to kill a process
+  apt-get update && \
+  apt-get install -y vim && \
+  echo "TEST" > /tmp/test.txt && \
+  nohup bash -c "vi /tmp/test.txt &" && \
+  sleep 4 && \
+  kill -9 $(pidof vi) && \
 # Install wget
   apt-get update && \
   apt-get install -y wget && \
