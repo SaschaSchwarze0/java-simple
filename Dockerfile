@@ -22,7 +22,7 @@ RUN \
   java -version && \
   mvn -version && \
 # Build the application
-  mvn package && \
+  MAVEN_OPTS="-Dmaven.wagon.http.retryhandler.class=standard -Dmaven.wagon.http.retryhandler.requestSentEnabled=true" mvn package && \
 # Remove the maven cache
   rm -rf /home/vertx/.m2
   
