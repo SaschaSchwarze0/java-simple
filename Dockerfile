@@ -8,7 +8,7 @@ RUN \
   java -version && \
   mvn -version && \
 # Build the application
-  mvn package
+  MAVEN_OPTS="-Dmaven.wagon.http.retryhandler.class=standard -Dmaven.wagon.http.retryhandler.requestSentEnabled=true" mvn package
 
 FROM adoptopenjdk:11-openj9
 
