@@ -1,4 +1,4 @@
-FROM maven:3-jdk-11-openj9
+FROM registry.saschaschwarze.de/sascha-codeengine/maven:3-jdk-11-openj9
 
 USER root
 RUN \
